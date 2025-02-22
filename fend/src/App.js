@@ -11,10 +11,14 @@ import CompletedTasks from './components/CompletedTasks'
 import SideBar from './components/SideBar'
 import Dashboard from './components/Dashboard'
 import OneTask from './components/OneTask'
+import AllTasks from './components/AllTasks'
+import Signin from './components/Signin'
+import Signup from './components/Signup'
 
 const App = () => {
 
     let [flag,setFlag]=useState(false)
+    let [showSideBar, setShowSideBar]=useState(true)
     let [data,setData]=useState([])
     let [showPopup,setShowPopup]=useState(false)
 
@@ -30,8 +34,8 @@ const App = () => {
     <Context.Provider value={{"ctData":ctData,"setCtData":setCtData}}>
     {showPopup && <Popup setFlag={setFlag} setShowPopup={setShowPopup}/>}
     <BrowserRouter>
-        <Nav />
-        <SideBar/>
+        <Nav setShowSideBar={setShowSideBar}/>
+        {showSideBar && <SideBar />}
         <main>
           <Routes>
             <Route path='/' element={<Tasks data={data} setShowPopup={setShowPopup} setFlag={setFlag}/>}/>
@@ -39,6 +43,9 @@ const App = () => {
             <Route path='/completed' element={<CompletedTasks/>}/>
             <Route path='/dashboard' element={<Dashboard/>}/>
             <Route path='/task/:id' element={<OneTask/>}/>
+            <Route path='/alltasks' element={<AllTasks/>}/>
+            <Route path='/login' element={<Signin/>}/>
+            <Route path='/signup' element={<Signup />} />
           </Routes>
         </main>
 

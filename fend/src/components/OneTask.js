@@ -11,6 +11,20 @@ const OneTask = () => {
             setTaskDetails(res.data)
         })
     })
+
+    const calculateDuration = (createdAt, completedAt) => {
+        if (!completedAt) return "Not completed yet";
+
+        const start = new Date(createdAt);
+        const end = new Date(completedAt);
+        const durationMs = end - start;
+
+        const minutes = Math.floor(durationMs / (1000 * 60));
+        const hours = Math.floor(minutes / 60);
+        const remainingMinutes = minutes % 60;
+
+        return hours > 0 ? `${hours}h ${remainingMinutes}m` : `${minutes} min`;
+    };
   return (
     <div className='task-details'>
         <h2>Task Info</h2>
@@ -40,6 +54,10 @@ const OneTask = () => {
                         "Not yet Completed"
                     )}
                 </td>
+            </tr>
+            <tr>
+                <th>Time Taken</th>
+                <td>{calculateDuration(taskDetails['created at'],taskDetails['completed at'])}</td>
             </tr>
         </table>
     </div>
