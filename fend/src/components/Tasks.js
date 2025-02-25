@@ -1,12 +1,26 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import Context from './Context'
 import { useNavigate } from 'react-router-dom'
 
-const Tasks = ({ data, setFlag, setShowPopup }) => {
+const Tasks = ({flag, setFlag, setShowPopup }) => {
 
-  let {setCtData}=useContext(Context)
+  let {setCtData,token,email}=useContext(Context)
   let navigate=useNavigate()
+
+  let [data,setData]=useState([])
+  
+  useEffect(() => {
+    axios.get('http://localhost:5000/tasks',{
+      headers:{
+        Authorization:token,
+        uid:email
+      }
+    }).then((res) => {
+      console.log("data", res.data)
+      setData(res.data)
+    })
+  }, [flag,email,token])
 
   let handleDelete=(id)=>{
     axios.delete(`http://localhost:5000/delete/${id}`).then((res)=>{
@@ -27,6 +41,7 @@ const Tasks = ({ data, setFlag, setShowPopup }) => {
   let handleSelect=(e,id)=>{
     axios.put('http://localhost:5000/changestatus', { '_id': id, "status": e.target.value, "completed at": new Date().toISOString() }).then(()=>{
       setFlag(prev=>!prev)
+
     })
   }
   return (
@@ -39,7 +54,7 @@ const Tasks = ({ data, setFlag, setShowPopup }) => {
                       <h4>{obj.title}</h4>
                       <p>{obj.description.length<80?obj.description:obj.description.slice(0,80)+'...'}</p>
                     </div>
-                    <select id="status" onChange={(e)=>handleSelect(e,obj._id)}>
+                    <select id="status" onChange={(e)=>handleSelect(e,obj._id)} value="pending">
                       <option value="pending" defaultChecked>Pending</option>
                       <option value="completed">Completed</option>
                     </select>

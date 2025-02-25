@@ -6,7 +6,7 @@ const Popup = ({setFlag, setShowPopup}) => {
 
     let {ctData}=useContext(Context)
 
-    console.log(ctData)
+    // console.log(ctData)
 
     let [editTask,setEditTask]=useState({
         "_id":ctData._id,

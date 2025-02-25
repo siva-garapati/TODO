@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom'
 import Nav from './components/Nav'
 import Add from './components/Add'
 import Tasks from './components/Tasks'
-import axios from 'axios'
 import './App.css'
 import Popup from './components/Popup'
 import Context from './components/Context'
@@ -14,46 +13,82 @@ import OneTask from './components/OneTask'
 import AllTasks from './components/AllTasks'
 import Signin from './components/Signin'
 import Signup from './components/Signup'
+import ForgotPassword from './components/ForgotPassword'
+import Cookies from 'js-cookie'
+
 
 const App = () => {
+  let [flag,setFlag]=useState(false)
+  let [showSideBar, setShowSideBar]=useState(true)
+  let [showPopup,setShowPopup]=useState(false)
 
-    let [flag,setFlag]=useState(false)
-    let [showSideBar, setShowSideBar]=useState(true)
-    let [data,setData]=useState([])
-    let [showPopup,setShowPopup]=useState(false)
+  let [token]=useState(Cookies.get('token'))
 
-    let [ctData,setCtData]=useState()
+  const [isAuthenticated,setIsAuthenticated] = useState(token!==undefined)
 
-    useEffect(()=>{
-        axios.get('http://localhost:5000/tasks').then((res)=>{
-            console.log("data",res.data)
-            setData(res.data)
-        })
-    },[flag])
+  const [email,setEmail]=useState(Cookies.get('email'))
+
+  let [ctData,setCtData]=useState()
+
+  // useEffect(() => {
+  //   if (token) {
+  //     Cookies.set('token', token);
+  //     setIsAuthenticated(true);
+  //   } else {
+  //     Cookies.remove('token');
+  //     setIsAuthenticated(false);
+  //   }
+
+  //   if (email) {
+  //     Cookies.set('email', email);
+  //   } else {
+  //     Cookies.remove('email');
+  //   }
+  // }, [token, email]); 
+
+  const contextObj={
+    ctData,
+    setCtData,
+    setShowPopup,
+    setShowSideBar,
+    isAuthenticated,
+    setIsAuthenticated,
+    email,
+    setEmail,
+    token
+  }
+
   return (
-    <Context.Provider value={{"ctData":ctData,"setCtData":setCtData}}>
-    {showPopup && <Popup setFlag={setFlag} setShowPopup={setShowPopup}/>}
-    <BrowserRouter>
-        <Nav setShowSideBar={setShowSideBar}/>
-        {showSideBar && <SideBar />}
-        <main>
+    <Context.Provider value={contextObj}>
+      <Router>
+        {showPopup && <Popup setShowPopup={setShowPopup} setFlag={setFlag} />}
+        {!isAuthenticated ? (
           <Routes>
-            <Route path='/' element={<Tasks data={data} setShowPopup={setShowPopup} setFlag={setFlag}/>}/>
-            <Route path='/add' element={<Add setFlag={setFlag}/>}/>
-            <Route path='/completed' element={<CompletedTasks/>}/>
-            <Route path='/dashboard' element={<Dashboard/>}/>
-            <Route path='/task/:id' element={<OneTask/>}/>
-            <Route path='/alltasks' element={<AllTasks/>}/>
-            <Route path='/login' element={<Signin/>}/>
+            <Route path='/login' element={<Signin />} />
             <Route path='/signup' element={<Signup />} />
+            <Route path='/forgot-password' element={<ForgotPassword />} />
+            <Route path='*' element={<Navigate to="/login" />} />
           </Routes>
-        </main>
-
-    </BrowserRouter>
+        ):(
+          <>
+          <Nav setShowSideBar={setShowSideBar} />
+          {showSideBar && <SideBar />}
+          <main>
+            <Routes>
+              <Route path='/' element={<Tasks setShowPopup={setShowPopup} setFlag={setFlag} flag={flag} />} />
+              <Route path='/add' element={<Add />} />
+              <Route path='/completed' element={<CompletedTasks />} />
+              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='/task/:id' element={<OneTask />} />
+              <Route path='/alltasks' element={<AllTasks />} />
+              <Route path='*' element={<Navigate to="/" />} />
+            </Routes>
+          </main>
+          </>
+        )}
+      </Router>
     </Context.Provider>
   )
 }
-
-
 
 export default App

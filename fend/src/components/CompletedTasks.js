@@ -1,17 +1,27 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Context from './Context'
 
 const CompletedTasks = () => {
 
     let [data,setData]=useState([])
     let navigate=useNavigate()
 
+    let {token, email}=useContext(Context)
+
+    let { setShowSideBar } = useContext(Context)
+
     useEffect(()=>{
-        axios.get('http://localhost:5000/completedtasks').then((res)=>{
+        axios.get('http://localhost:5000/completedtasks',{
+            headers: {
+                Authorization: token,
+                uid: email
+            }
+        }).then((res)=>{
             setData(res.data)
         })
-    },[])
+    },[email,token])
 
     const calculateDuration = (createdAt, completedAt) => {
         if (!completedAt) return "Not completed yet";
@@ -30,7 +40,7 @@ const CompletedTasks = () => {
     <div className='completed'>
         <h2>Tasks you are completed</h2>
         {data && data.map((obj)=>{
-            return <div className='task' key={obj._id} onClick={() => navigate(`/task/${obj._id}`)}>
+            return <div className='task' key={obj._id} onClick={() => { setShowSideBar(false) ;navigate(`/task/${obj._id}`)}}>
                 <div className='details'>
                     <h4>{obj.title}</h4>
                     <p>{obj.description.length < 80 ? obj.description : obj.description.slice(0, 80) + '...'}</p>

@@ -3,7 +3,7 @@ let {v4:uuidv4}=require("uuid")
 
 let addTask=async(req,res)=>{
     try{
-        let data=new taskModel({...req.body,"_id":uuidv4(),"email":"abc@gmail.com"})
+        let data=new taskModel({...req.body,"_id":uuidv4()})
         await data.save()
         res.json({"msg":"Task saved"})
     }catch(err){
@@ -13,7 +13,7 @@ let addTask=async(req,res)=>{
 
 let getTasks=async(req,res)=>{
     try{
-        let data=await taskModel.find({"email":"abc@gmail.com","status":"pending"},{"modified at":0})
+        let data=await taskModel.find({"email":req.headers.uid,"status":"pending"},{"modified at":0})
         res.json(data)
     }catch(err){
         res.json({"err":"error in fetching tasks"})
@@ -58,7 +58,7 @@ let changeStatus=async(req,res)=>{
 
 let completedTasks=async(req,res)=>{
     try{
-        let data=await taskModel.find({'status':'completed'})
+        let data=await taskModel.find({"email":req.headers.uid,'status':'completed'})
         res.json(data)
     }catch(err){
         res.json({'msg':"failed to fetch completed tasks"})

@@ -1,0 +1,218 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background: #121212;
+    font-family: 'Poppins', sans-serif;
+}
+
+.login-container .logo {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #f0f0f0;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.login-container .welcome-text {
+    font-size: 1.2rem;
+    color: #bbb;
+    margin-bottom: 20px;
+}
+
+.login-container .login-box {
+    background: #1e1e1e;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.login-container .login-box input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    background: #2a2a2a;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.login-container .login-box input::placeholder {
+    color: #aaa;
+}
+
+.login-container .login-box input:focus {
+    background: #333;
+    border: 1px solid #00adb5;
+    box-shadow: 0px 0px 8px rgba(0, 173, 181, 0.5);
+}
+
+.login-container .login-box button {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #00adb5;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    /* transition: background 0.3s ease, transform 0.2s ease; */
+}
+
+.login-container .login-box button:hover {
+    background: #008c96;
+    transform: scale(1.03);
+}
+
+.forgot-password {
+    text-align: right;
+    font-size: 0.9rem;
+}
+
+.forgot-password a {
+    color: #00adb5;
+    text-decoration: none;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+.create-account {
+    background: #ff5722;
+}
+
+.create-account:hover {
+    background: #e64a19;
+}
+
+.continue-without {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.continue-without a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.continue-without a:hover {
+    text-decoration: underline;
+}
+
+/* Strictly targets the signup container */
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background: #121212;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* App logo */
+.signup-container .logo {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #f0f0f0;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Welcome text */
+.signup-container .welcome-text {
+    font-size: 1.2rem;
+    color: #bbb;
+    margin-bottom: 20px;
+}
+
+/* Signup form box */
+.signup-container .signup-box {
+    background: #1e1e1e;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Input fields */
+.signup-container .signup-box input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    background: #2a2a2a;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+/* Placeholder styling */
+.signup-container .signup-box input::placeholder {
+    color: #aaa;
+}
+
+/* Input focus effect */
+.signup-container .signup-box input:focus {
+    background: #333;
+    border: 1px solid #00adb5;
+    box-shadow: 0px 0px 8px rgba(0, 173, 181, 0.5);
+}
+
+/* Signup button */
+.signup-container .signup-box button {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #00adb5;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+/* Button hover effect */
+.signup-container .signup-box button:hover {
+    background: #008c96;
+    transform: scale(1.03);
+}
+
+/* Signup error or success message */
+.signup-container .signup-message {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #ff4444;
+}
+
+/* Link to login */
+.signup-container .continue-without {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.signup-container .continue-without a {
+    color: #00adb5;
+    text-decoration: none;
+}
+
+.signup-container .continue-without a:hover {
+    text-decoration: underline;
+}

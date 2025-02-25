@@ -14,47 +14,38 @@
     "sidebar main";
 }
 
-nav{
+nav {
     grid-area: navbar;
-    position: relative;
-    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     height: 8vh;
     background-color: white;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.447);
-    align-content: center;
-    /* display: flex;
-    justify-content: space-between;
-    align-items: center; */
+    border-bottom: 1px solid #ddd;
 }
 
-nav>a{
-    margin: auto;
-    text-align: center;
-    text-decoration: none;
-    color: black;
-}
-
-nav i,
-nav .signin{
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+nav .menu-icon{
     font-size: 22px;
     cursor: pointer;
+    padding: 0 20px;
 }
 
-nav i{
-    left: 20px;
+nav .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
-nav .signin{
+nav .logout{
+    cursor: pointer;
+    padding: 0 20px;
     font-size: 18px;
-    right: 20px;
 }
 
-nav .signin a{
+nav a {
     text-decoration: none;
-    padding: 0px 6px;
     color: black;
 }
 
@@ -94,7 +85,6 @@ aside a.active{
 main{
     grid-area: main;
     padding: 1rem 2em;
-
     display: flex;
     justify-content: center;
 }

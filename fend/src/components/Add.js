@@ -1,10 +1,12 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import Context from './Context';
 
-const Add = ({setFlag}) => {
+const Add = () => {
     
     let [inputData, setInputdata] = useState({ 'title': '', "description": ''})
     const [toast, setToast] = useState({ show: false, message: "" });
+    let {email}=useContext(Context)
 
     const showToast = (message) => {
         setToast({ show: true, message });
@@ -12,13 +14,14 @@ const Add = ({setFlag}) => {
     };
 
     let handleClick=()=>{
+        const addObj={...inputData, "created at": new Date().toISOString(), email}
         if (Object.values(inputData).some(val=>val!=='')){
-            axios.post("http://localhost:5000/add", { ...inputData, "created at": new Date().toISOString() }).then((res) => {
+            axios.post("http://localhost:5000/add", addObj).then((res) => {
                 if (res.data.msg === 'Task saved') {
                     console.log(res.data)
                     setInputdata({ 'title': '', "description": '' })
                     showToast("Task added")
-                    setFlag(prev => !prev)
+                    // setFlag(prev => !prev)
                 }
             })
         }else{
