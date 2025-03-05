@@ -14,7 +14,7 @@ const Add = () => {
     };
 
     let handleClick=()=>{
-        const addObj={...inputData, "created at": new Date().toISOString(), email}
+        const addObj={...inputData, "createdAt": new Date(), email}
         if (Object.values(inputData).some(val=>val!=='')){
             axios.post("http://localhost:5000/add", addObj).then((res) => {
                 if (res.data.msg === 'Task saved') {
@@ -22,6 +22,8 @@ const Add = () => {
                     setInputdata({ 'title': '', "description": '' })
                     showToast("Task added")
                     // setFlag(prev => !prev)
+                }else{
+                    alert('task not saved')
                 }
             })
         }else{

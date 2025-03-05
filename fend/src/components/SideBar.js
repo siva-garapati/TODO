@@ -9,7 +9,7 @@ const SideBar = () => {
         <NavLink to='/completed'>Completed Tasks</NavLink>
         <NavLink to='/alltasks'>All Tasks</NavLink>
         <NavLink to='/dashboard'>Dashboard</NavLink>
-        <NavLink to='/Logout'>Logout</NavLink>
+        {/* <NavLink to='/Logout'>Logout</NavLink> */}
     </aside>
   )
 }

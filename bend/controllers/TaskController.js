@@ -11,6 +11,15 @@ let addTask=async(req,res)=>{
     }
 }
 
+let getalltasks=async(req,res)=>{
+    try{
+        let data = await taskModel.find({ "email": req.headers.uid })
+        res.json(data)
+    }catch(err){
+        res.json({'msg':"failed to fetching all tasks"})
+    }
+}
+
 let getTasks=async(req,res)=>{
     try{
         let data=await taskModel.find({"email":req.headers.uid,"status":"pending"},{"modified at":0})
@@ -65,4 +74,27 @@ let completedTasks=async(req,res)=>{
     }
 }
 
-module.exports = { addTask, getTasks, del, update, changeStatus, completedTasks,task}
+let filterStatus=async(req,res)=>{
+    try{
+        let data = await taskModel.find({ "email": req.headers.uid, 'status': req.params.status })
+        res.json(data)
+    }catch(err){
+        res.json({'msg':"failed to fetch completed tasks"})
+    }
+}
+
+let stats=async(req,res)=>{
+    try{
+        let data = await taskModel.find({ "email": req.headers.uid })
+        res.json({
+            'totalTasks':data.length,
+            'completedTasks':await taskModel.countDocuments({"email": req.headers.uid,"status":"completed"}),
+            'pendingtasks':await taskModel.countDocuments({"email": req.headers.uid,"status":"pending"}),
+        })
+    }catch(err){
+        res.json({'msg':'error in fetching stats'})
+    }
+}
+
+
+module.exports = { addTask, getTasks, del, update, changeStatus, completedTasks, task, getalltasks, filterStatus, stats }

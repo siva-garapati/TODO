@@ -10,8 +10,6 @@ const CompletedTasks = () => {
 
     let {token, email}=useContext(Context)
 
-    let { setShowSideBar } = useContext(Context)
-
     useEffect(()=>{
         axios.get('http://localhost:5000/completedtasks',{
             headers: {
@@ -39,17 +37,17 @@ const CompletedTasks = () => {
   return (
     <div className='completed'>
         <h2>Tasks you are completed</h2>
-        {data && data.map((obj)=>{
-            return <div className='task' key={obj._id} onClick={() => { setShowSideBar(false) ;navigate(`/task/${obj._id}`)}}>
+        {data.length>0 ? (data.map((obj)=>{
+            return <div className='task' key={obj._id} onClick={() => {navigate(`/task/${obj._id}`)}}>
                 <div className='details'>
                     <h4>{obj.title}</h4>
                     <p>{obj.description.length < 80 ? obj.description : obj.description.slice(0, 80) + '...'}</p>
                 </div>
                 <div>
-                    <p>{'completed in '+calculateDuration(obj['created at'],obj['completed at'])}</p>
+                    <p>{'completed in '+calculateDuration(obj['createdAt'],obj['completedAt'])}</p>
                 </div>
             </div>
-        })}
+        })):(<h4>You haven't Completed any Task</h4>)}
     </div>
   )
 }

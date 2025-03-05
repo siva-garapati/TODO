@@ -23,10 +23,12 @@ const Tasks = ({flag, setFlag, setShowPopup }) => {
   }, [flag,email,token])
 
   let handleDelete=(id)=>{
-    axios.delete(`http://localhost:5000/delete/${id}`).then((res)=>{
-      console.log(res.data)
-      setFlag(prev=>!prev)
-    })
+    if (window.confirm('Are you sure you want to delete this task?')){
+      axios.delete(`http://localhost:5000/delete/${id}`).then((res) => {
+        console.log(res.data)
+        setFlag(prev => !prev)
+      })
+    }
   }
 
   let viewTask=(id)=>{
@@ -39,9 +41,8 @@ const Tasks = ({flag, setFlag, setShowPopup }) => {
   }
 
   let handleSelect=(e,id)=>{
-    axios.put('http://localhost:5000/changestatus', { '_id': id, "status": e.target.value, "completed at": new Date().toISOString() }).then(()=>{
+    axios.put('http://localhost:5000/changestatus', { '_id': id, "status": e.target.value, "completedAt": new Date() }).then(()=>{
       setFlag(prev=>!prev)
-
     })
   }
   return (
@@ -49,7 +50,7 @@ const Tasks = ({flag, setFlag, setShowPopup }) => {
       <h2>Pending Tasks</h2>
         {
             data.length>0 ? (data.map((obj,index)=>{
-                return <div style={{borderBottom:"2px solid"}} className='task' key={index}>
+                return <div className='task' key={index}>
                     <div className='details'  onClick={()=>viewTask(obj._id)}>
                       <h4>{obj.title}</h4>
                       <p>{obj.description.length<80?obj.description:obj.description.slice(0,80)+'...'}</p>

@@ -1,16 +1,26 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const OneTask = () => {
     let {id}=useParams()
+    let navigate=useNavigate()
     let [taskDetails,setTaskDetails]=useState({})
 
     useEffect(()=>{
         axios.get(`http://localhost:5000/task/${id}`).then((res)=>{
             setTaskDetails(res.data)
         })
-    })
+    },[id])
+
+    let handleDelete = () => {
+        if (window.confirm('Are you sure you want to delete this task?')) {
+            axios.delete(`http://localhost:5000/delete/${id}`).then((res) => {
+                console.log(res.data)
+                navigate('/')
+            })
+        }
+    }
 
     const calculateDuration = (createdAt, completedAt) => {
         if (!completedAt) return "Not completed yet";
@@ -43,13 +53,13 @@ const OneTask = () => {
             </tr>
             <tr>
                 <th>Created On</th>
-                  <td>{new Date(taskDetails['created at']).toLocaleDateString("en-GB")}</td>
+                  <td>{new Date(taskDetails['createdAt']).toLocaleString()}</td>
             </tr>
             <tr>
                 <th>Completed On</th>
                 <td>
-                    { taskDetails['completed at']!==null?(
-                        new Date(taskDetails['created at']).toLocaleDateString("en-GB")
+                    { taskDetails['completedAt']!==null?(
+                        new Date(taskDetails['createdAt']).toLocaleDateString()
                     ):(
                         "Not yet Completed"
                     )}
@@ -57,9 +67,10 @@ const OneTask = () => {
             </tr>
             <tr>
                 <th>Time Taken</th>
-                <td>{calculateDuration(taskDetails['created at'],taskDetails['completed at'])}</td>
+                <td>{calculateDuration(taskDetails['createdAt'],taskDetails['completedAt'])}</td>
             </tr>
         </table>
+        <button onClick={handleDelete}>Delete &nbsp;<i className="fa-solid fa-trash"/></button>
     </div>
   )
 }
